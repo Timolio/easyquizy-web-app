@@ -68,6 +68,13 @@ onMounted(async () => {
         adjust(style.getPropertyValue('--tg-theme-section-bg-color') || '', -5)
     );
     root.style.setProperty(
+        '--tg-theme-section-bg-tcolor',
+        addAlpha(
+            style.getPropertyValue('--tg-theme-section-bg-dcolor') || '',
+            0.5
+        )
+    );
+    root.style.setProperty(
         '--tg-theme-text-ttcolor',
         addAlpha(style.getPropertyValue('--tg-theme-text-color') || '', 0.5)
     );

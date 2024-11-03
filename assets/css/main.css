@@ -31,12 +31,12 @@ textarea.tg {
     border: none;
     outline: none;
     border-bottom: 0.2rem solid var(--tg-theme-button-color);
-    /* background-color: var(--tg-theme-button-ttcolor); */
+    /* background-color: var(--tg-theme-section-bg-tcolor); */
     background: none;
     border-radius: 0.2rem 0.2rem 0 0;
-    padding: 1rem 0.6rem;
+    padding: 0.8rem 0.6rem;
     color: var(--tg-theme-text-color);
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     line-height: 1.75rem;
     resize: none;
     overflow: hidden;
@@ -52,7 +52,6 @@ textarea.tg:focus {
     border-bottom: 0.2rem solid var(--tg-theme-button-color);
     background-color: var(--tg-theme-button-ttcolor);
     padding-left: 1.2rem;
-    padding-right: 1.2rem;
 }
 
 input[type='number'].tg {

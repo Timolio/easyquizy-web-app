@@ -1,6 +1,6 @@
 <template>
     <div class="element-editor flex flex-col gap-3 h-full">
-        <div class="con flex flex-col gap-3 grow-0">
+        <div class="flex flex-col gap-2 grow-0">
             <div class="flex flex-row gap-3 items-center grow-0">
                 <h6 class="tg-hint text-sm uppercase grow-0 font-normal">
                     Тип элемента
@@ -41,7 +41,7 @@
             </h6>
             <draggable class="flex flex-col gap-3" :list="element.options">
                 <div
-                    class="con flex flex-col"
+                    class="flex flex-col con"
                     v-for="(option, index) in element.options"
                     :key="index"
                 >
