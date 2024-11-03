@@ -1,6 +1,6 @@
 <template>
-    <div class="element-editor flex flex-col gap-4 px-5 py-4 h-full">
-        <div class="flex flex-row gap-3 items-center grow-0">
+    <div class="element-editor flex flex-col gap-3 h-full">
+        <div class="con flex flex-row gap-3 items-center grow-0">
             <h6 class="tg-hint text-sm uppercase grow-0 font-normal">
                 Тип элемента
             </h6>
@@ -10,7 +10,7 @@
                 <option value="text-answer">Text Answer</option>
             </select>
         </div>
-        <div class="flex flex-col gap-0.5 grow-0">
+        <div class="con flex flex-col gap-1 grow-0">
             <h6 class="uppercase tg-hint text-sm font-normal">Текст</h6>
             <textarea
                 class="tg"
@@ -23,21 +23,34 @@
             ></textarea>
         </div>
 
-        <div class="flex flex-col grow">
+        <div class="con flex flex-col grow gap-1">
             <h6 class="tg-hint text-sm uppercase grow-0 font-normal">
                 Варианты
             </h6>
-            <draggable :list="element.options">
-                <div v-for="(option, index) in element.options" :key="index">
-                    <input v-model="option.text" type="text" class="tg" />
-                    <input
-                        v-model.number="option.score"
-                        type="number"
+            <draggable class="flex flex-col gap-3" :list="element.options">
+                <div
+                    class="flex flex-col"
+                    v-for="(option, index) in element.options"
+                    :key="index"
+                >
+                    <textarea
+                        rows="1"
+                        v-model="option.text"
+                        @keydown.enter.prevent
+                        oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+                        type="text"
                         class="tg"
-                    />
-                    <button @click="removeOption(index)">
-                        Удалить вариант
-                    </button>
+                    ></textarea>
+                    <div class="flex flex-row">
+                        <input
+                            v-model.number="option.score"
+                            type="number"
+                            class="tg grow"
+                        />
+                        <button class="delete" @click="removeOption(index)">
+                            Удалить
+                        </button>
+                    </div>
                 </div>
             </draggable>
             <button @click="addOption">Добавить вариант</button>
@@ -65,3 +78,15 @@ function removeOption(index) {
     props.element.options.splice(index, 1);
 }
 </script>
+
+<style scoped>
+.con {
+    background-color: var(--tg-theme-section-bg-dcolor);
+    padding: 0.8rem 1.2rem;
+    border-radius: 0.75rem;
+}
+
+.delete {
+    background-color: var(--tg-theme-destructive-text-color);
+}
+</style>

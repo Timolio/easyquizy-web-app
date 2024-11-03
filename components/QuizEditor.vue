@@ -1,5 +1,5 @@
 <template>
-    <div class="quiz-editor rounded-xl pb-10">
+    <div class="quiz-editor rounded-xl pb-16">
         <!-- Редактор текущего элемента -->
         <ElementEditor :element="currentElement" @delete="deleteElement" />
 
