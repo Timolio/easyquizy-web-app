@@ -11,7 +11,8 @@ const OptionSchema = new Schema({
 });
 
 const ElementSchema = new Schema({
-    text: { type: String, required: true },
+    title: { type: String, required: true },
+    description: { type: String },
     type: {
         type: String,
         enum: ['single-choice', 'multiple-choice', 'text-answer'],

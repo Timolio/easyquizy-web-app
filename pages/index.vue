@@ -22,7 +22,8 @@ const createQuiz = async () => {
             description: 'This is an example quiz.',
             elements: [
                 {
-                    text: 'What is the capital of France?',
+                    title: 'What is the capital of France?',
+                    description: 'Try to recall',
                     type: 'single-choice',
                     options: [
                         { text: 'Paris', score: 10 },

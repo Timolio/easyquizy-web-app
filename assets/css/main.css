@@ -31,14 +31,28 @@ textarea.tg {
     border: none;
     outline: none;
     border-bottom: 0.2rem solid var(--tg-theme-button-color);
-    background-color: var(--tg-theme-button-ttcolor);
+    /* background-color: var(--tg-theme-button-ttcolor); */
+    background: none;
     border-radius: 0.2rem 0.2rem 0 0;
-    padding: 0.4rem 0.8rem;
-    color: var(--tg-theme-accent-text-color);
+    padding: 1rem 0.6rem;
+    color: var(--tg-theme-text-color);
     font-size: 1.125rem;
     line-height: 1.75rem;
     resize: none;
     overflow: hidden;
+    transition: all 0.1s;
+}
+
+textarea.tg.small {
+    font-size: 1rem;
+    padding: 0.6rem 0.6rem;
+}
+
+textarea.tg:focus {
+    border-bottom: 0.2rem solid var(--tg-theme-button-color);
+    background-color: var(--tg-theme-button-ttcolor);
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
 }
 
 input[type='number'].tg {
@@ -61,8 +75,8 @@ input[type='number'].tg {
 select.tg {
     border: none;
     outline: none;
-    /* background-color: var(--tg-theme-button-ttcolor); */
-    background: none;
+    background-color: var(--tg-theme-button-ttcolor);
+    /* background: none; */
     border-radius: 0.2em;
     padding: 0.2rem 0.4rem;
     color: var(--tg-theme-accent-text-color);
@@ -72,7 +86,7 @@ select.tg {
 }
 
 input[type='text']::placeholder {
-    color: var(--tg-theme-button-tcolor);
+    color: var(--tg-theme-button-color);
 }
 textarea::placeholder {
     color: var(--tg-theme-button-tcolor);

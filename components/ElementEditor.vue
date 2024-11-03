@@ -1,35 +1,47 @@
 <template>
     <div class="element-editor flex flex-col gap-3 h-full">
-        <div class="con flex flex-row gap-3 items-center grow-0">
-            <h6 class="tg-hint text-sm uppercase grow-0 font-normal">
-                Тип элемента
-            </h6>
-            <select class="grow tg" v-model="element.type">
-                <option value="single-choice">Single Choice</option>
-                <option value="multiple-choice">Multiple Choice</option>
-                <option value="text-answer">Text Answer</option>
-            </select>
-        </div>
-        <div class="con flex flex-col gap-1 grow-0">
-            <h6 class="uppercase tg-hint text-sm font-normal">Текст</h6>
+        <div class="con flex flex-col gap-3 grow-0">
+            <div class="flex flex-row gap-3 items-center grow-0">
+                <h6 class="tg-hint text-sm uppercase grow-0 font-normal">
+                    Тип элемента
+                </h6>
+                <select class="grow tg" v-model="element.type">
+                    <option value="single-choice">Single Choice</option>
+                    <option value="multiple-choice">Multiple Choice</option>
+                    <option value="text-answer">Text Answer</option>
+                </select>
+            </div>
+            <!-- <h6 class="uppercase tg-hint text-sm font-normal">Вопрос</h6> -->
             <textarea
                 class="tg"
                 rows="1"
-                v-model="element.text"
+                v-model="element.title"
                 @keydown.enter.prevent
+                placeholder="Вопрос"
+                oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+                type="text"
+                required
+            ></textarea>
+
+            <textarea
+                class="tg small"
+                rows="1"
+                v-model="element.description"
+                @keydown.enter.prevent
+                placeholder="Описание"
                 oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
                 type="text"
                 required
             ></textarea>
         </div>
 
-        <div class="con flex flex-col grow gap-1">
+        <div class="flex flex-col grow gap-1">
             <h6 class="tg-hint text-sm uppercase grow-0 font-normal">
                 Варианты
             </h6>
             <draggable class="flex flex-col gap-3" :list="element.options">
                 <div
-                    class="flex flex-col"
+                    class="con flex flex-col"
                     v-for="(option, index) in element.options"
                     :key="index"
                 >
