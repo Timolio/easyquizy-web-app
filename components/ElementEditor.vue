@@ -57,7 +57,7 @@
             </h6> -->
             <draggable class="flex flex-col gap-3" :list="element.options">
                 <div
-                    class="flex flex-row op grow rounded-xl items-center gap-4"
+                    class="flex flex-row op grow rounded-xl items-center gap-2"
                     v-for="(option, index) in element.options"
                     :key="index"
                 >
@@ -66,7 +66,7 @@
                         width="16"
                         height="16"
                         fill="currentColor"
-                        class="grow-0"
+                        class="grow-0 tg-hint"
                         viewBox="0 0 16 16"
                     >
                         <path
@@ -89,11 +89,11 @@
                                 class="tg grow-0"
                             />
                         </div>
-                        <div class="flex flex-row">
+                        <!-- <div class="flex flex-row">
                             <button class="delete" @click="removeOption(index)">
                                 Удалить
                             </button>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </draggable>
@@ -146,7 +146,8 @@ function removeOption(index) {
 }
 
 .op {
-    padding: 0.4rem 0.4rem;
+    padding: 0.4rem 0.6rem;
+    background-color: var(--tg-theme-button-ttcolor);
 }
 
 .delete {

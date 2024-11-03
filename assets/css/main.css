@@ -59,7 +59,8 @@ input[type='number'].tg {
     width: 3rem;
     padding: 0.4rem;
     outline: none;
-    background-color: var(--tg-theme-button-ttcolor);
+    /* background-color: var(--tg-theme-button-ttcolor); */
+    background: none;
     border-radius: 0 0.2rem 0.2rem 0;
     text-align: center;
     color: var(--tg-theme-accent-text-color);
