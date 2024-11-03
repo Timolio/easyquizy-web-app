@@ -130,6 +130,6 @@ function jumpToElement(index) {
 .quiz-editor {
     display: flex;
     flex-direction: column;
-    background-color: var(--tg-theme-section-bg-dcolor);
+    /* background-color: var(--tg-theme-section-bg-dcolor); */
 }
 </style>

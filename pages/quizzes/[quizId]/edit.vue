@@ -1,12 +1,12 @@
 <template>
     <div v-if="currentQuiz" class="edit-quiz-page flex flex-col h-full gap-2">
         <!-- Заголовок квиза -->
-        <div class="header-container rounded-xl flex flex-row">
+        <!-- <div class="header-container rounded-xl flex flex-row">
             <h1 class="text-sm font-semibold ms-2 tg-hint">
                 {{ currentQuiz.title || 'Edit Quiz' }}
             </h1>
             <p class="text-sm" v-if="saving">Cохранение...</p>
-        </div>
+        </div> -->
         <!-- Основной компонент редактора квиза -->
         <QuizEditor class="grow" v-if="currentQuiz.elements.length > 0" />
     </div>
