@@ -34,7 +34,7 @@ textarea.tg {
     /* background-color: var(--tg-theme-section-bg-tcolor); */
     background: none;
     border-radius: 0.2rem 0.2rem 0 0;
-    padding: 0.8rem 0.6rem;
+    padding: 0.8rem 1.2rem 0.8rem 0.6rem;
     color: var(--tg-theme-text-color);
     font-size: 1.25rem;
     line-height: 1.75rem;
@@ -51,6 +51,7 @@ textarea.tg.small {
 textarea.tg:focus {
     border-bottom: 0.2rem solid var(--tg-theme-button-color);
     background-color: var(--tg-theme-button-ttcolor);
+    padding-right: 0.6rem;
     padding-left: 1.2rem;
 }
 
