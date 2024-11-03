@@ -14,28 +14,24 @@
                 </div>
                 <!-- <h6 class="uppercase tg-hint text-sm font-normal">Вопрос</h6> -->
                 <textarea
-                    class="tg"
+                    class="tg resizable"
                     rows="1"
                     v-model="element.title"
                     @keydown.enter.prevent
                     placeholder="Вопрос"
                     oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
-                    type="text"
-                    required
                 ></textarea>
 
                 <textarea
-                    class="tg small"
+                    class="tg small resizable"
                     rows="1"
                     v-model="element.description"
                     @keydown.enter.prevent
                     placeholder="Описание"
                     oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
-                    type="text"
-                    required
                 ></textarea>
             </div>
-            <div class="px-3 py-2">
+            <div class="flex flex-row justify-end px-3 py-2">
                 <button
                     class="tg-destructive-button mr-2 flex items-center justify-center rounded-lg shrink-0 size-10"
                     @click="$emit('delete')"
@@ -61,27 +57,43 @@
             </h6> -->
             <draggable class="flex flex-col gap-3" :list="element.options">
                 <div
-                    class="flex flex-col op rounded-xl"
+                    class="flex flex-row op grow rounded-xl items-center gap-4"
                     v-for="(option, index) in element.options"
                     :key="index"
                 >
-                    <textarea
-                        rows="1"
-                        v-model="option.text"
-                        @keydown.enter.prevent
-                        oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
-                        type="text"
-                        class="tg"
-                    ></textarea>
-                    <div class="flex flex-row">
-                        <input
-                            v-model.number="option.score"
-                            type="number"
-                            class="tg grow-0 size-12"
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="grow-0"
+                        viewBox="0 0 16 16"
+                    >
+                        <path
+                            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
                         />
-                        <button class="delete" @click="removeOption(index)">
-                            Удалить
-                        </button>
+                    </svg>
+                    <div class="flex flex-col grow">
+                        <div class="flex flex-row">
+                            <textarea
+                                rows="1"
+                                v-model="option.text"
+                                @keydown.enter.prevent
+                                oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+                                type="text"
+                                class="tg grow resizable"
+                            ></textarea>
+                            <input
+                                v-model.number="option.score"
+                                type="number"
+                                class="tg grow-0"
+                            />
+                        </div>
+                        <div class="flex flex-row">
+                            <button class="delete" @click="removeOption(index)">
+                                Удалить
+                            </button>
+                        </div>
                     </div>
                 </div>
             </draggable>
@@ -134,8 +146,7 @@ function removeOption(index) {
 }
 
 .op {
-    border: 2px dashed var(--tg-theme-section-bg-color);
-    padding: 1rem 1.2rem;
+    padding: 0.4rem 0.4rem;
 }
 
 .delete {

@@ -76,18 +76,20 @@ const isFirstElement = computed(() => currentIndex.value === 0);
 //     await quizStore.fetchQuiz(quizId); // Предполагается, что `fetchQuiz` загружает квиз в `currentQuiz`
 // });
 
-function nextElement() {
+async function nextElement() {
     if (currentIndex.value < currentQuiz.value.elements.length - 1) {
         currentIndex.value++;
     } else {
         addElement();
     }
+    await updateTextareas();
 }
 
-function prevElement() {
+async function prevElement() {
     if (currentIndex.value > 0) {
         currentIndex.value--;
     }
+    await updateTextareas();
 }
 
 function addElement() {

@@ -36,6 +36,7 @@ const debouncedSaveQuiz = debounce(saveQuiz, 1000);
 onMounted(async () => {
     await fetchQuizById(route.params.quizId, initDataUnsafe?.user?.id ?? 404);
     watch(currentQuiz.value, debouncedSaveQuiz, { deep: true });
+    await updateTextareas();
 });
 </script>
 
