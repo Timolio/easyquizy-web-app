@@ -4,7 +4,7 @@
             <h6 class="tg-hint text-sm uppercase grow-0 font-normal">
                 Тип элемента
             </h6>
-            <select class="grow" v-model="element.type">
+            <select class="grow tg" v-model="element.type">
                 <option value="single-choice">Single Choice</option>
                 <option value="multiple-choice">Multiple Choice</option>
                 <option value="text-answer">Text Answer</option>
@@ -13,6 +13,7 @@
         <div class="flex flex-col gap-0.5 grow-0">
             <h6 class="uppercase tg-hint text-sm font-normal">Текст</h6>
             <textarea
+                class="tg"
                 rows="1"
                 v-model="element.text"
                 @keydown.enter.prevent
@@ -28,8 +29,12 @@
             </h6>
             <draggable :list="element.options">
                 <div v-for="(option, index) in element.options" :key="index">
-                    <input v-model="option.text" type="text" />
-                    <input v-model.number="option.score" type="number" />
+                    <input v-model="option.text" type="text" class="tg" />
+                    <input
+                        v-model.number="option.score"
+                        type="number"
+                        class="tg"
+                    />
                     <button @click="removeOption(index)">
                         Удалить вариант
                     </button>

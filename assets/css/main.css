@@ -15,7 +15,7 @@ body {
     color: var(--tg-theme-accent-text-color);
 }
 
-input[type='text'] {
+/* input[type='text'] {
     appearance: none;
     border: none;
     outline: none;
@@ -25,8 +25,8 @@ input[type='text'] {
     padding: 0.4rem 0.8rem;
     color: var(--tg-theme-button-color);
     font-size: 1.25rem;
-}
-textarea {
+} */
+textarea.tg {
     appearance: none;
     border: none;
     outline: none;
@@ -40,7 +40,7 @@ textarea {
     overflow: hidden;
 }
 
-input[type='number'] {
+input[type='number'].tg {
     width: 3rem;
     padding: 0.4rem;
     outline: none;
@@ -58,7 +58,7 @@ input[type='number'] {
     }
 }
 
-select {
+select.tg {
     border: none;
     outline: none;
     background-color: var(--tg-theme-button-ttcolor);
