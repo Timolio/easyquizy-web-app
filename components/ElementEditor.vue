@@ -25,24 +25,28 @@
                         Тип элемента
                     </h6>
                     <select class="grow tg" v-model="element.type">
-                        <option value="single-choice">Single Choice</option>
-                        <option value="multiple-choice">Multiple Choice</option>
-                        <option value="text-answer">Text Answer</option>
+                        <option value="single-choice">Один из списка</option>
+                        <option value="multiple-choice">
+                            Несколько из списка
+                        </option>
+                        <option value="text-answer">Текстовый ответ</option>
                     </select>
                 </div>
-                <div class="flex flex-col grow">
+                <div class="flex flex-col grow gap-3">
                     <!-- <h6 class="tg-hint text-sm uppercase grow-0 font-normal">
                 Варианты
             </h6> -->
-                    <button
+                    <!-- <button
                         class="tg-button rounded-lg grow-0 py-3 px-3 font-semibold"
                         @click="addOption"
                     >
                         Добавить вариант
-                    </button>
+                    </button> -->
                     <draggable
                         class="flex flex-col gap-3"
+                        v-if="element.options.length > 0"
                         :list="element.options"
+                        handle=".dragging"
                     >
                         <div
                             class="flex flex-col op grow rounded-lg items-center"
@@ -53,10 +57,17 @@
                                 class="flex flex-col w-full grow head rounded-lg"
                             >
                                 <div class="flex flex-row items-center gap-2">
+                                    <div
+                                        class="flex items-center justify-center dragging size-8 shrink-0"
+                                        v-if="!option.isPhantom"
+                                    >
+                                        ☰
+                                    </div>
                                     <textarea
                                         rows="1"
                                         v-model="option.text"
                                         @keydown.enter.prevent
+                                        @input="handleInput(option)"
                                         oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
                                         type="text"
                                         class="tg grow resizable small"
@@ -64,9 +75,11 @@
                                     <input
                                         v-model.number="option.score"
                                         type="number"
-                                        class="tg grow-0 resizable"
+                                        class="tg grow-0 h-full resizable"
+                                        v-if="!option.isPhantom"
                                     />
                                     <button
+                                        v-if="!option.isPhantom"
                                         class="flex items-center justify-center rounded-lg shrink-0 grow-0 tg-red size-8 font-bold text-xl"
                                         @click="removeOption(index)"
                                     >
@@ -110,9 +123,22 @@ const props = defineProps({
     },
 });
 
-function addOption() {
-    props.element.options.push({ text: '', score: 0 });
+function addPhantomOption() {
+    const lastOption = props.element.options[props.element.options.length - 1];
+    if (!lastOption || lastOption.text.trim() !== '') {
+        props.element.options.push({ text: '', score: 0, isPhantom: true });
+    }
 }
+
+function handleInput(option) {
+    if (option.isPhantom && option.text.trim() !== '') {
+        option.isPhantom = false;
+        console.log('ADDIDUS');
+        addPhantomOption();
+    }
+}
+
+addPhantomOption();
 
 function removeOption(index) {
     props.element.options.splice(index, 1);
