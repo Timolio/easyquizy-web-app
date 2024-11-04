@@ -21,6 +21,6 @@ useHead({
 <style>
 main {
     height: 100vh;
-    padding: 0.8rem 1rem;
+    padding: 0.6rem 0.6rem;
 }
 </style>

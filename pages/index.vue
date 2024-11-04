@@ -68,6 +68,10 @@ onMounted(async () => {
         adjust(style.getPropertyValue('--tg-theme-section-bg-color') || '', -5)
     );
     root.style.setProperty(
+        '--tg-theme-section-bg-lcolor',
+        adjust(style.getPropertyValue('--tg-theme-section-bg-color') || '', 5)
+    );
+    root.style.setProperty(
         '--tg-theme-section-bg-tcolor',
         addAlpha(
             style.getPropertyValue('--tg-theme-section-bg-dcolor') || '',
@@ -100,7 +104,7 @@ onMounted(async () => {
                 Мои квизы
             </h6>
             <button
-                class="flex w-full items-center justify-center tg-button p-1 overflow-hidden text-lg font-semibold rounded-xl px-5 py-2"
+                class="flex w-full items-center justify-center tg-button s p-1 overflow-hidden text-lg font-semibold rounded-xl px-5 py-2"
                 @click="createQuiz"
                 :disabled="isLoading"
             >
@@ -154,19 +158,6 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.tg-button {
-    box-shadow: 0 10px 15px -3px var(--tg-theme-button-tcolor),
-        0 4px 6px -4px var(--tg-theme-button-tcolor);
-    /* box-shadow: 0 8px 15px 0 var(--tg-theme-button-tcolor); */
-    background-image: linear-gradient(
-        to bottom right,
-        var(--tg-theme-button-color) 0%,
-        var(--tg-theme-button-lcolor) 100%
-    );
-    color: var(--tg-theme-button-llcolor);
-    height: 52px;
-}
-
 .shimmer {
     animation: shimmer 4s linear infinite;
     background-size: 400%;

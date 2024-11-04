@@ -30,11 +30,11 @@ textarea.tg {
     appearance: none;
     border: none;
     outline: none;
-    border-bottom: 0.2rem solid var(--tg-theme-button-color);
+    border-bottom: 0.2rem solid var(--tg-theme-section-bg-lcolor);
     /* background-color: var(--tg-theme-section-bg-tcolor); */
     background: none;
     border-radius: 0.2rem 0.2rem 0 0;
-    padding: 0.8rem 1.2rem 0.8rem 0.6rem;
+    padding: 0.8rem 1.6rem 0.8rem 0.6rem;
     color: var(--tg-theme-text-color);
     font-size: 1.25rem;
     line-height: 1.75rem;
@@ -43,15 +43,35 @@ textarea.tg {
     transition: all 0.1s;
 }
 
+.tg-button {
+    /* box-shadow: 0 8px 15px 0 var(--tg-theme-button-tcolor); */
+    background-image: linear-gradient(
+        to bottom right,
+        var(--tg-theme-button-color) 0%,
+        var(--tg-theme-button-lcolor) 100%
+    );
+    color: var(--tg-theme-button-llcolor);
+    /* height: 52px; */
+}
+
+.tg-button.s {
+    box-shadow: 0 10px 15px -3px var(--tg-theme-button-tcolor),
+        0 4px 6px -4px var(--tg-theme-button-tcolor);
+}
+
 textarea.tg.small {
     font-size: 1rem;
-    padding: 0.6rem 0.6rem;
+    padding: 0.6rem 1.6rem 0.6rem 0.6rem;
+}
+
+.tg-red {
+    color: var(--tg-theme-destructive-text-color);
 }
 
 textarea.tg:focus {
     border-bottom: 0.2rem solid var(--tg-theme-button-color);
     background-color: var(--tg-theme-button-ttcolor);
-    padding-right: 0.6rem;
+    padding-right: 1rem;
     padding-left: 1.2rem;
 }
 
@@ -63,7 +83,7 @@ input[type='number'].tg {
     background: none;
     border-radius: 0 0.2rem 0.2rem 0;
     text-align: center;
-    color: var(--tg-theme-accent-text-color);
+    color: var(--tg-theme-text-color);
     appearance: textfield;
     font-size: 1.25rem;
     margin: 0;
@@ -87,8 +107,8 @@ select.tg {
 }
 
 input[type='text']::placeholder {
-    color: var(--tg-theme-button-color);
+    color: var(--tg-theme-section-bg-lcolor);
 }
 textarea::placeholder {
-    color: var(--tg-theme-button-tcolor);
+    color: var(--tg-theme-section-bg-lcolor);
 }
