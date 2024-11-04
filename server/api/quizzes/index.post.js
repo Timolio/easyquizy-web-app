@@ -12,8 +12,8 @@ export default defineEventHandler(async event => {
     });
 
     try {
-        const savedQuiz = await newQuiz.save();
-        return { success: true, data: savedQuiz };
+        const { _id, title } = await newQuiz.save();
+        return { success: true, data: { _id, title } };
     } catch (e) {
         console.error(e);
         return {

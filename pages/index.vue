@@ -4,7 +4,7 @@ const { initDataUnsafe } = useWebApp();
 
 const isLoading = ref(false);
 const quizStore = useQuizStore();
-const { fetchQuizMetadata, fetchQuizById } = quizStore;
+const { fetchQuizMetadata } = quizStore;
 const { quizzes, currentQuiz } = storeToRefs(quizStore);
 
 const openQuiz = async quizId => {
@@ -13,33 +13,7 @@ const openQuiz = async quizId => {
 
 const createQuiz = async () => {
     const telegram_id = initDataUnsafe?.user?.id ?? 404;
-
-    const { success } = await $fetch('/api/quizzes/create', {
-        method: 'POST',
-        body: {
-            user_id: telegram_id,
-            title: 'Example Quiz',
-            description: 'This is an example quiz.',
-            elements: [
-                {
-                    title: 'What is the capital of France?',
-                    description: 'Try to recall',
-                    type: 'single-choice',
-                    options: [
-                        { text: 'Paris', score: 10 },
-                        { text: 'London', score: 0 },
-                        { text: 'Berlin', score: 0 },
-                    ],
-                },
-            ],
-            outcomes: [
-                { text: 'Excellent', min_percentage: 90 },
-                { text: 'Good', min_percentage: 70 },
-                { text: 'Keep trying', min_percentage: 50 },
-                { text: 'Bad', min_percentage: 0 },
-            ],
-        },
-    });
+    await quizStore.createQuiz(telegram_id);
 };
 
 onMounted(async () => {

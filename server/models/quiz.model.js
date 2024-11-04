@@ -6,7 +6,7 @@ const OutcomeSchema = new Schema({
 });
 
 const OptionSchema = new Schema({
-    text: { type: String, required: true },
+    text: { type: String, required: true, trim: true },
     score: { type: Number, required: true },
 });
 
@@ -27,6 +27,7 @@ const QuizSchema = new Schema({
     description: { type: String },
     elements: [ElementSchema],
     outcomes: [OutcomeSchema],
+    created_at: { type: Date, default: Date.now },
 });
 
 export const Quiz = mongoose.model('Quiz', QuizSchema);

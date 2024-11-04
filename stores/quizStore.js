@@ -22,12 +22,15 @@ export const useQuizStore = defineStore('quiz', {
                 console.error('Failed to fetch metadata', e);
             }
         },
-        async saveQuiz() {
+        async saveQuiz(telegramId) {
             const { _id } = this.currentQuiz;
             try {
                 this.saving = true;
                 await $fetch(`/api/quizzes/${_id}`, {
                     method: 'PUT',
+                    headers: {
+                        'X-Telegram-ID': telegramId,
+                    },
                     body: this.currentQuiz,
                 });
             } catch (e) {
@@ -46,21 +49,44 @@ export const useQuizStore = defineStore('quiz', {
                         'X-Telegram-ID': telegramId,
                     },
                 });
-
                 this.currentQuiz = data;
                 console.log(this.currentQuiz.outcomes);
             } catch (e) {
                 console.error('Failed to fetch quiz', e);
             }
         },
-        addElement(element) {
-            this.currentQuiz.elements.push(element);
-        },
-        deleteElement(index) {
-            this.currentQuiz.elements.splice(index, 1);
-        },
-        clearCurrentQuiz() {
-            this.currentQuiz = null;
+        async createQuiz(telegramId) {
+            try {
+                const { data } = await $fetch('/api/quizzes', {
+                    method: 'POST',
+                    body: {
+                        user_id: telegramId,
+                        title: 'Example Quiz',
+                        description: 'This is an example quiz.',
+                        elements: [
+                            {
+                                title: 'What is the capital of France?',
+                                description: 'Try to recall',
+                                type: 'single-choice',
+                                options: [
+                                    { text: 'Paris', score: 10 },
+                                    { text: 'London', score: 0 },
+                                    { text: 'Berlin', score: 0 },
+                                ],
+                            },
+                        ],
+                        outcomes: [
+                            { text: 'Excellent', min_percentage: 90 },
+                            { text: 'Good', min_percentage: 70 },
+                            { text: 'Keep trying', min_percentage: 50 },
+                            { text: 'Bad', min_percentage: 0 },
+                        ],
+                    },
+                });
+                this.quizzes.push(data);
+            } catch (e) {
+                console.error('Failed to create quiz', e);
+            }
         },
     },
 });

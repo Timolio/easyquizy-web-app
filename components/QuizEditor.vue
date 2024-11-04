@@ -1,108 +1,115 @@
 <template>
-    <div class="quiz-editor rounded-xl pb-16">
-        <!-- Редактор текущего элемента -->
-        <ElementEditor :element="currentElement" @delete="deleteElement" />
+    <div class="flex flex-col h-screen p-5 box-border">
+        <div v-if="currentView === 'quiz-info'">
+            <h2 class="text-xl font-bold mb-4">Edit Quiz Info</h2>
+            <input
+                v-model="quiz.title"
+                placeholder="Quiz Title"
+                class="w-full p-2 mb-4 border border-gray-300 rounded"
+            />
+            <textarea
+                v-model="quiz.description"
+                placeholder="Quiz Description"
+                class="w-full p-2 border border-gray-300 rounded"
+            ></textarea>
+        </div>
 
-        <!-- Навигационная панель -->
-        <div class="navigation-bar">
-            <button @click="prevElement">
-                <span v-if="!isFirstElement">⬅️</span>
+        <ElementEditor
+            v-else-if="currentView === 'element'"
+            :element="currentElement"
+            @delete="deleteElement"
+        />
+
+        <OutcomeEditor
+            v-else-if="currentView === 'outcomes'"
+            :outcomes="quiz.outcomes"
+            @update="updateOutcomes"
+        />
+
+        <div
+            class="fixed bottom-0 left-0 right-0 flex justify-around p-4 bg-gray-100 border-t border-gray-300"
+        >
+            <button
+                v-if="!isFirstElement"
+                @click="prevElement"
+                class="text-lg px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+            >
+                ⬅️
             </button>
-            <button @click="toggleGridView">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="currentColor"
-                    class="text-black"
-                    viewBox="0 0 16 16"
-                >
-                    <path
-                        d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z"
-                    />
-                </svg>
+            <button
+                @click="toggleGridView"
+                class="text-lg px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+            >
+                🔲
             </button>
-            <button @click="nextElement">
-                <span v-if="!isLastElement">➡️</span>
-                <span v-else>➕</span>
+            <button
+                @click="isLastElement ? addElement() : nextElement()"
+                class="text-lg px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+            >
+                <span v-if="isLastElement">➕</span>
+                <span v-else>➡️</span>
             </button>
         </div>
 
-        <!-- Модальное окно для сеточного обзора -->
         <GridView
             v-if="showGrid"
-            :elements="currentQuiz.elements"
+            :quiz="quiz"
             @close="toggleGridView"
             @selectElement="jumpToElement"
+            @updateOrder="updateElementOrder"
+            @openQuizInfo="openQuizInfo"
+            @openOutcomes="openOutcomes"
         />
-
-        <!-- <div class="outcomes-section">
-            <h2>Outcomes</h2>
-            <OutcomeBar :outcomes="currentQuiz.outcomes" />
-        </div> -->
     </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useQuizStore } from '~/stores/quizStore';
 import ElementEditor from '~/components/ElementEditor.vue';
 import GridView from '~/components/GridView.vue';
-import { useRoute, useRouter } from 'vue-router';
+import OutcomeEditor from '~/components/OutcomeEditor.vue';
 
-const quizStore = useQuizStore();
-const route = useRoute();
-const router = useRouter();
+const props = defineProps({
+    quiz: {
+        type: Object,
+        required: true,
+    },
+});
 
-const showGrid = ref(false);
 const currentIndex = ref(0);
+const currentView = ref('element');
+const showGrid = ref(false);
 
-const { currentQuiz } = storeToRefs(quizStore);
-
-// Получаем текущий элемент квиза
-const currentElement = computed(
-    () => currentQuiz.value.elements[currentIndex.value]
-);
-
-// Определяем, является ли текущий элемент последним
-const isLastElement = computed(
-    () => currentIndex.value === currentQuiz.value.elements.length - 1
-);
+const currentElement = computed(() => props.quiz.elements[currentIndex.value]);
 const isFirstElement = computed(() => currentIndex.value === 0);
+const isLastElement = computed(
+    () => currentIndex.value === props.quiz.elements.length - 1
+);
 
-// Загружаем квиз при монтировании компонента
-// onMounted(async () => {
-//     const quizId = route.params.id;
-//     await quizStore.fetchQuiz(quizId); // Предполагается, что `fetchQuiz` загружает квиз в `currentQuiz`
-// });
-
-async function nextElement() {
-    if (currentIndex.value < currentQuiz.value.elements.length - 1) {
+function nextElement() {
+    if (currentIndex.value < props.quiz.elements.length - 1) {
         currentIndex.value++;
-    } else {
-        addElement();
     }
-    await updateTextareas();
 }
 
-async function prevElement() {
+function prevElement() {
     if (currentIndex.value > 0) {
         currentIndex.value--;
     }
-    await updateTextareas();
 }
 
 function addElement() {
-    quizStore.addElement({
-        text: 'Example',
+    props.quiz.elements.push({
+        title: '',
+        description: '',
         type: 'single-choice',
         options: [],
     });
-    currentIndex.value = currentQuiz.value.elements.length - 1;
+    currentIndex.value = props.quiz.elements.length - 1;
 }
 
 function deleteElement() {
-    quizStore.deleteElement(currentIndex.value);
+    props.quiz.elements.splice(currentIndex.value, 1);
     currentIndex.value = Math.max(0, currentIndex.value - 1);
 }
 
@@ -110,28 +117,29 @@ function toggleGridView() {
     showGrid.value = !showGrid.value;
 }
 
+// Навигация по элементам в GridView
 function jumpToElement(index) {
     currentIndex.value = index;
+    currentView.value = 'element';
     showGrid.value = false;
 }
+
+function openQuizInfo() {
+    currentView.value = 'quiz-info';
+    showGrid.value = false;
+}
+
+function openOutcomes() {
+    currentView.value = 'outcomes';
+    showGrid.value = false;
+}
+
+function updateOutcomes(updatedOutcomes) {
+    props.quiz.outcomes = [...updatedOutcomes];
+}
+
+// Обновление порядка элементов при перетаскивании
+function updateElementOrder(newOrder) {
+    props.quiz.elements = [...newOrder];
+}
 </script>
-
-<style>
-.navigation-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-around;
-    padding: 1rem;
-    background-color: #f0f0f0;
-    border-top: 1px solid #ddd;
-}
-
-.quiz-editor {
-    display: flex;
-    flex-direction: column;
-    /* background-color: var(--tg-theme-section-bg-dcolor); */
-}
-</style>
