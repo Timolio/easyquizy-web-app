@@ -77,20 +77,33 @@ textarea.tg:focus {
 
 input[type='number'].tg {
     width: 3rem;
-    padding: 0.4rem;
+    padding: 0.6rem;
     outline: none;
     /* background-color: var(--tg-theme-button-ttcolor); */
+    border-bottom: 0.2rem solid var(--tg-theme-section-bg-lcolor);
     background: none;
     border-radius: 0 0.2rem 0.2rem 0;
     text-align: center;
     color: var(--tg-theme-text-color);
     appearance: textfield;
-    font-size: 1.25rem;
+    font-size: 1rem;
     margin: 0;
     &::-webkit-inner-spin-button {
         opacity: 1;
         background: red;
     }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+    -moz-appearance: textfield;
 }
 
 select.tg {

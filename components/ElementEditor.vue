@@ -52,7 +52,7 @@
                             <div
                                 class="flex flex-col w-full grow head rounded-lg"
                             >
-                                <div class="flex flex-row items-center">
+                                <div class="flex flex-row items-center gap-2">
                                     <textarea
                                         rows="1"
                                         v-model="option.text"
@@ -64,7 +64,7 @@
                                     <input
                                         v-model.number="option.score"
                                         type="number"
-                                        class="tg grow-0"
+                                        class="tg grow-0 resizable"
                                     />
                                     <button
                                         class="flex items-center justify-center rounded-lg shrink-0 grow-0 tg-red size-8 font-bold text-xl"
