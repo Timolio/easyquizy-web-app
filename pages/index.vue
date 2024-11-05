@@ -6,6 +6,7 @@ const isLoading = ref(false);
 const quizStore = useQuizStore();
 const { fetchQuizMetadata } = quizStore;
 const { quizzes, currentQuiz } = storeToRefs(quizStore);
+const route = useRoute();
 
 const openQuiz = async quizId => {
     await navigateTo(`/quizzes/${quizId}/edit`);
