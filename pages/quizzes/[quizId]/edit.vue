@@ -1,4 +1,6 @@
 <template>
+    <!-- Импровизация быстрая -->
+    <button @click="sendLink">Ссылка на квиз</button>
     <div v-if="currentQuiz">
         <QuizEditor :quiz="currentQuiz" />
     </div>
@@ -21,6 +23,13 @@ const { currentQuiz } = storeToRefs(quizStore);
 const debouncedSaveQuiz = debounce(() => {
     quizStore.saveQuiz(initDataUnsafe?.user?.id ?? 404);
 }, 1000);
+
+// Импровизация быстрая
+const sendLink = async () => {
+    const link = `https://t.me/idmikuji_bot/start?startapp=${currentQuiz.value._id}`;
+    console.log(link);
+    openTelegramLink(`https://t.me/share/url?url=${link}&text=@idmikuji_bot`);
+};
 
 onMounted(async () => {
     const quizId = route.params.quizId;

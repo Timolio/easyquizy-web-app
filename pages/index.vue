@@ -19,6 +19,13 @@ const createQuiz = async () => {
 onMounted(async () => {
     const root = document.documentElement;
     const style = window.getComputedStyle(root);
+    // Импровизация быстрая
+    const startApp = initDataUnsafe?.start_param ?? route.query?.startapp;
+    if (!!startApp) {
+        const link = `/quizzes/${startApp}`;
+        await navigateTo(link);
+    }
+
     const telegram_id = initDataUnsafe?.user?.id ?? 404;
 
     root.style.setProperty(

@@ -1,6 +1,19 @@
 <template>
-    <div v-if="quiz" class="quiz-container p-5">
-        <div v-if="!isQuizCompleted">
+    <div v-if="quiz">
+        <!-- Стартовый экран -->
+        <div v-if="!hasStarted" class="start-screen text-center p-5">
+            <h1 class="text-3xl font-bold mb-4">{{ quiz.title }}</h1>
+            <p class="text-lg mb-6">{{ quiz.description }}</p>
+            <button
+                @click="startQuiz"
+                class="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+                Начать
+            </button>
+        </div>
+
+        <!-- Экран прохождения квиза -->
+        <div v-else-if="!isQuizCompleted" class="quiz-container p-5">
             <div v-if="currentQuestion" class="question">
                 <h2 class="text-2xl font-bold mb-4">
                     {{ currentQuestion.title }}
@@ -66,6 +79,7 @@
                 </button>
             </div>
         </div>
+
         <!-- Quiz result -->
         <div v-else class="result text-center p-5">
             <h2 class="text-2xl font-bold mb-4">Quiz Result</h2>
@@ -88,6 +102,7 @@ const route = useRoute();
 const quizStore = useQuizStore();
 const { currentQuiz: quiz } = storeToRefs(quizStore);
 
+const hasStarted = ref(false);
 const currentIndex = ref(0);
 const userAnswers = ref({});
 const isQuizCompleted = ref(false);
@@ -107,6 +122,10 @@ const currentQuestion = computed(
 const isLastQuestion = computed(
     () => currentIndex.value === quiz.value?.elements.length - 1
 );
+
+function startQuiz() {
+    hasStarted.value = true;
+}
 
 // Initialize array for multiple-choice answers
 function initializeAnswer(index) {
@@ -209,6 +228,11 @@ function calculateScore() {
 
 <style scoped>
 .quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.start-screen {
     max-width: 600px;
     margin: 0 auto;
 }
