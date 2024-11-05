@@ -12,10 +12,11 @@
 <script setup>
 import { debounce } from 'lodash';
 import { useRoute } from 'vue-router';
-const { useWebApp } = await import('vue-tg');
+const { useWebApp, useWebAppNavigation } = await import('vue-tg');
 
 const quizStore = useQuizStore();
 const { initDataUnsafe } = useWebApp();
+const { openTelegramLink } = useWebAppNavigation();
 
 const route = useRoute();
 const { currentQuiz } = storeToRefs(quizStore);
