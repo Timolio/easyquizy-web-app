@@ -15,6 +15,7 @@
         <!-- Экран прохождения квиза -->
         <div v-else-if="!isQuizCompleted" class="quiz-container p-5">
             <div v-if="currentQuestion" class="question">
+                <img class="mb-4" :src="currentQuestion.image_url" />
                 <h2 class="text-2xl font-bold mb-4">
                     {{ currentQuestion.title }}
                 </h2>

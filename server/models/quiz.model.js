@@ -3,11 +3,13 @@ import mongoose, { Schema } from 'mongoose';
 const OutcomeSchema = new Schema({
     text: { type: String, required: true },
     min_percentage: { type: Number, required: true },
+    image_url: { type: String },
 });
 
 const OptionSchema = new Schema({
     text: { type: String, required: true, trim: true },
     score: { type: Number, required: true },
+    image_url: { type: String },
 });
 
 const ElementSchema = new Schema({
@@ -19,6 +21,7 @@ const ElementSchema = new Schema({
         required: true,
     },
     options: [OptionSchema],
+    image_url: { type: String },
 });
 
 const QuizSchema = new Schema({

@@ -7,6 +7,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         mongodbUri: process.env.MONGODB_URI,
+        gcpServiceAccountKey: process.env.GCP_SERVICE_ACCOUNT_KEY,
     },
 
     css: ['~/assets/css/main.css'],

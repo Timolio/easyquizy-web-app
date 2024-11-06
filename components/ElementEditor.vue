@@ -1,5 +1,15 @@
 <template>
     <div class="flex flex-col gap-4 mb-5">
+        <ImageUploader v-model="element.image_url" />
+
+        <div v-if="element.image_url">
+            <img
+                :src="element.image_url"
+                alt="Element Image"
+                class="max-w-full h-auto mt-4 rounded"
+            />
+        </div>
+
         <input
             v-model="element.title"
             placeholder="Title"
@@ -48,6 +58,7 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue';
 import OptionInput from '~/components/OptionInput.vue';
+import ImageUploader from './ImageUploader.vue';
 
 const props = defineProps({
     element: {
