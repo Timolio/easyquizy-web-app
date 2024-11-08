@@ -28,6 +28,7 @@ const QuizSchema = new Schema({
     user_id: { type: Number, ref: 'User', required: true },
     title: { type: String, required: true },
     description: { type: String },
+    image_url: { type: String },
     elements: [ElementSchema],
     outcomes: [OutcomeSchema],
     created_at: { type: Date, default: Date.now },

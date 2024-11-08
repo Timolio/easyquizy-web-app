@@ -14,13 +14,14 @@ useHead({
         <ClientOnly>
             <slot />
             <StartApp />
+            <NotificationsList />
         </ClientOnly>
     </main>
 </template>
 
 <style>
 main {
-    height: 100vh;
+    min-height: 100vh;
     padding: 0.6rem 0.8rem;
 }
 

@@ -1,11 +1,31 @@
 <template>
-    <!-- Импровизация быстрая -->
-    <button @click="sendLink">Ссылка на квиз</button>
     <div v-if="currentQuiz">
-        <QuizEditor :quiz="currentQuiz" />
-    </div>
-    <div v-else>
-        <p>Loading or access denied... {{ currentQuiz }}</p>
+        <!-- Импровизация быстрая -->
+        <button @click="sendLink">Ссылка на квиз</button>
+        <h1 class="text-2xl font-bold mb-4">Edit Quiz</h1>
+
+        <QuizInfo />
+
+        <h2 class="text-xl font-semibold mt-6">Questions</h2>
+        <QuestionsList
+            @edit="openQuestionEditor"
+            @create="openQuestionEditor"
+        />
+
+        <h2 class="text-xl font-semibold mt-6">Outcomes</h2>
+        <OutcomesList @edit="openOutcomeEditor" @create="openOutcomeEditor" />
+
+        <QuestionEditor
+            v-if="isQuestionEditorOpen"
+            :question="selectedQuestion"
+            @close="closeQuestionEditor"
+        />
+
+        <OutcomeEditor
+            v-if="isOutcomeEditorOpen"
+            :outcome="selectedOutcome"
+            @close="closeOutcomeEditor"
+        />
     </div>
 </template>
 
@@ -21,9 +41,44 @@ const { openTelegramLink } = useWebAppNavigation();
 const route = useRoute();
 const { currentQuiz } = storeToRefs(quizStore);
 
+const isQuestionEditorOpen = ref(false);
+const isOutcomeEditorOpen = ref(false);
+const selectedQuestion = ref(null);
+const selectedOutcome = ref(null);
+
 const debouncedSaveQuiz = debounce(() => {
     quizStore.saveQuiz(initDataUnsafe?.user?.id ?? 404);
 }, 1000);
+
+const openQuestionEditor = (question = null) => {
+    selectedQuestion.value = question || {
+        title: '',
+        description: '',
+        options: [],
+        type: 'single-choice',
+        image_url: '',
+    };
+    isQuestionEditorOpen.value = true;
+};
+
+const closeQuestionEditor = () => {
+    isQuestionEditorOpen.value = false;
+    selectedQuestion.value = null;
+};
+
+const openOutcomeEditor = (outcome = null) => {
+    selectedOutcome.value = outcome || {
+        text: '',
+        min_percentage: 0,
+        image_url: '',
+    };
+    isOutcomeEditorOpen.value = true;
+};
+
+const closeOutcomeEditor = () => {
+    isOutcomeEditorOpen.value = false;
+    selectedOutcome.value = null;
+};
 
 // Импровизация быстрая
 const sendLink = async () => {
