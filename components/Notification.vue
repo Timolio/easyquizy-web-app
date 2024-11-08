@@ -12,9 +12,6 @@
 </template>
 
 <script setup>
-import { ref, onUnmounted } from 'vue';
-import { defineProps, defineEmits } from 'vue';
-
 const props = defineProps(['message', 'duration']);
 const emit = defineEmits(['close']);
 

@@ -16,8 +16,8 @@ export default defineEventHandler(async event => {
                 statusMessage: 'Quiz not found',
             });
 
-        if (quiz.user_id.toString() !== telegramId)
-            throw createError({ statusCode: 403, statusMessage: 'Forbidden' });
+        // if (quiz.user_id.toString() !== telegramId)
+        //     throw createError({ statusCode: 403, statusMessage: 'Forbidden' });
 
         return { data: quiz };
     } catch (e) {
