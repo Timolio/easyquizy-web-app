@@ -1,19 +1,33 @@
 <template>
-    <div>
-        <label class="block mb-2 text-gray-700">Upload Image</label>
+    <div class="uploader">
         <input
+            v-if="!imageUrl"
             type="file"
             @change="uploadImage"
             accept="image/png, image/jpeg, image/jpg, image/gif, image/webp"
+            class="input-file"
         />
-        <img
-            v-if="imageUrl"
-            :src="imageUrl"
-            class="mt-4 max-w-full h-auto rounded"
-        />
-        <button class="text-gray-700" v-if="imageUrl" @click="resetImage">
-            Reset Image
-        </button>
+        <div class="relative">
+            <img v-if="imageUrl" :src="imageUrl" class="uploaded-image" />
+            <button
+                class="reset-button absolute top-1 right-1 p-3"
+                v-if="imageUrl"
+                @click="resetImage"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    fill="currentColor"
+                    class="bi bi-trash-fill"
+                    viewBox="0 0 16 16"
+                >
+                    <path
+                        d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"
+                    />
+                </svg>
+            </button>
+        </div>
     </div>
 </template>
 
@@ -77,9 +91,34 @@ async function uploadImage(event) {
 </script>
 
 <style scoped>
-img {
+.uploader {
+    color: var(--tg-theme-text-color);
+}
+.label {
+    color: var(--tg-theme-accent-text-color);
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+.input-file {
+    /* background-color: var(--tg-theme-secondary-bg-color); */
+    color: var(--tg-theme-text-color);
+    border: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    width: 100%;
+}
+.uploaded-image {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
+    /* border-radius: 8px; */
+}
+.reset-button {
+    /* margin-top: 1rem; */
+    color: var(--tg-theme-destructive-text-color);
+    /* background: none;
+    border: none;
+    font-weight: bold;
+    cursor: pointer; */
 }
 </style>

@@ -1,13 +1,11 @@
 <template>
     <div
-        class="bg-red-500 text-white p-4 shadow-lg flex justify-between items-center mb-2 w-full max-w-screen animate-slide-up"
-        :class="{ 'animate-fade-out': isFadingOut }"
+        class="notification"
+        :class="{ 'fade-out': isFadingOut }"
         @animationend="handleAnimationEnd"
     >
         <div>{{ message }}</div>
-        <button @click="closeImmediately" class="ml-4 font-bold text-xl">
-            ×
-        </button>
+        <button @click="closeImmediately" class="close-button">×</button>
     </div>
 </template>
 
@@ -33,7 +31,24 @@ const handleAnimationEnd = () => {
 };
 </script>
 
-<style>
+<style scoped>
+.notification {
+    background-color: var(--tg-theme-destructive-text-color);
+    color: var(--tg-theme-button-text-color);
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slide-up 0.3s ease-out;
+}
+.close-button {
+    background: none;
+    border: none;
+    color: var(--tg-theme-button-text-color);
+    font-size: 1.25rem;
+    cursor: pointer;
+}
 @keyframes slide-up {
     from {
         opacity: 0;
@@ -44,7 +59,9 @@ const handleAnimationEnd = () => {
         transform: translateY(0);
     }
 }
-
+.fade-out {
+    animation: fade-out 0.5s ease-out forwards;
+}
 @keyframes fade-out {
     from {
         opacity: 1;
@@ -52,13 +69,5 @@ const handleAnimationEnd = () => {
     to {
         opacity: 0;
     }
-}
-
-.animate-slide-up {
-    animation: slide-up 0.3s ease-out;
-}
-
-.animate-fade-out {
-    animation: fade-out 0.5s ease-out forwards;
 }
 </style>

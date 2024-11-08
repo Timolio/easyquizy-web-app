@@ -1,34 +1,24 @@
 <template>
-    <div class="fixed inset-0 bg-white flex justify-center p-2 overflow-y-auto">
-        <div class="w-full max-w-3xl">
-            <h3 class="text-lg font-bold mb-4">Edit Outcome</h3>
-            <ImageUploader
-                class="w-full rounded-md text-lg mb-4"
-                v-model="localOutcome.image_url"
-            />
+    <div class="editor-container">
+        <div class="editor">
+            <ImageUploader v-model="localOutcome.image_url" />
             <input
                 v-model="localOutcome.text"
-                placeholder="Outcome Text"
-                class="w-full border border-gray-300 rounded-md p-2 mb-2"
+                placeholder="Текст исхода"
+                class="input"
             />
             <input
                 v-model="localOutcome.min_percentage"
                 type="number"
-                placeholder="Minimum Percentage"
-                class="w-full border border-gray-300 rounded-md p-2 mb-4"
+                placeholder="Минимальный процент"
+                class="input"
             />
-            <div class="flex justify-end space-x-4 sticky bottom-0 bg-white">
-                <button
-                    @click="handleSave"
-                    class="px-6 py-3 rounded-md text-white font-semibold bg-blue-500 hover:bg-blue-600"
-                >
-                    Save
+            <div class="actions">
+                <button @click="handleSave" class="save-button">
+                    Сохранить
                 </button>
-                <button
-                    @click="$emit('close')"
-                    class="px-6 py-3 rounded-md bg-gray-300 font-semibold"
-                >
-                    Close
+                <button @click="$emit('close')" class="close-button">
+                    Закрыть
                 </button>
             </div>
         </div>
@@ -70,3 +60,49 @@ const handleSave = () => {
     }
 };
 </script>
+
+<style scoped>
+.editor-container {
+    background-color: var(--tg-theme-bg-color);
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    position: fixed;
+    inset: 0;
+    overflow-y: auto;
+}
+.editor {
+    width: 100%;
+    max-width: 600px;
+}
+.input {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: var(--tg-theme-secondary-bg-color);
+    border: none;
+    border-radius: 4px;
+    color: var(--tg-theme-text-color);
+    margin-bottom: 1rem;
+}
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+.save-button {
+    background-color: var(--tg-theme-button-color);
+    color: var(--tg-theme-button-text-color);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.close-button {
+    background-color: var(--tg-theme-section-separator-color);
+    color: var(--tg-theme-text-color);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+</style>

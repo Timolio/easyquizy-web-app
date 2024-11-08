@@ -1,8 +1,8 @@
 <template>
-    <div class="fixed inset-0 bg-white flex justify-center p-2 overflow-y-auto">
+    <div
+        class="question-editor fixed inset-0 flex justify-center p-2 overflow-y-auto"
+    >
         <div class="w-full max-w-3xl">
-            <h3 class="text-2xl font-bold mb-6">Edit Question</h3>
-
             <ImageUploader
                 class="w-full rounded-md text-lg mb-4"
                 v-model="localQuestion.image_url"
@@ -66,7 +66,7 @@
             </div>
 
             <!-- Кнопки управления -->
-            <div class="flex justify-end space-x-4 sticky bottom-0 bg-white">
+            <div class="flex justify-end space-x-4 sticky bottom-0">
                 <button
                     @click="handleSave"
                     class="px-6 py-3 rounded-md text-white font-semibold bg-blue-500 hover:bg-blue-600"
@@ -154,3 +154,15 @@ onMounted(() => {
     ensurePhantomOption();
 });
 </script>
+
+<style scoped>
+.question-editor {
+    background-color: var(--tg-theme-secondary-bg-color);
+}
+
+input,
+textarea,
+select {
+    background: none;
+}
+</style>

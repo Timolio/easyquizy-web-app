@@ -1,18 +1,12 @@
 <template>
     <div v-if="currentQuiz">
-        <!-- Импровизация быстрая -->
-        <button @click="sendLink">Ссылка на квиз</button>
-        <h1 class="text-2xl font-bold mb-4">Edit Quiz</h1>
-
         <QuizInfo />
 
-        <h2 class="text-xl font-semibold mt-6">Questions</h2>
         <QuestionsList
             @edit="openQuestionEditor"
             @create="openQuestionEditor"
         />
 
-        <h2 class="text-xl font-semibold mt-6">Outcomes</h2>
         <OutcomesList @edit="openOutcomeEditor" @create="openOutcomeEditor" />
 
         <QuestionEditor
