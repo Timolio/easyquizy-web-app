@@ -18,8 +18,6 @@ const createQuiz = async () => {
 };
 
 onMounted(async () => {
-    const root = document.documentElement;
-    const style = window.getComputedStyle(root);
     // Импровизация быстрая
     const startApp = initDataUnsafe?.start_param ?? route.query?.startapp;
     if (!!startApp) {
@@ -28,46 +26,6 @@ onMounted(async () => {
     }
 
     const telegram_id = initDataUnsafe?.user?.id ?? 404;
-
-    root.style.setProperty(
-        '--tg-theme-button-tcolor',
-        addAlpha(style.getPropertyValue('--tg-theme-button-color') || '', 0.3)
-    );
-    root.style.setProperty(
-        '--tg-theme-button-ttcolor',
-        addAlpha(style.getPropertyValue('--tg-theme-button-color') || '', 0.1)
-    );
-    root.style.setProperty(
-        '--tg-theme-button-lcolor',
-        adjust(style.getPropertyValue('--tg-theme-button-color') || '', 70)
-    );
-    root.style.setProperty(
-        '--tg-theme-button-llcolor',
-        adjust(style.getPropertyValue('--tg-theme-button-color') || '', 160)
-    );
-    root.style.setProperty(
-        '--tg-theme-section-bg-dcolor',
-        adjust(style.getPropertyValue('--tg-theme-section-bg-color') || '', -5)
-    );
-    root.style.setProperty(
-        '--tg-theme-section-bg-lcolor',
-        adjust(style.getPropertyValue('--tg-theme-section-bg-color') || '', 5)
-    );
-    root.style.setProperty(
-        '--tg-theme-section-bg-tcolor',
-        addAlpha(
-            style.getPropertyValue('--tg-theme-section-bg-dcolor') || '',
-            0.5
-        )
-    );
-    root.style.setProperty(
-        '--tg-theme-text-ttcolor',
-        addAlpha(style.getPropertyValue('--tg-theme-text-color') || '', 0.5)
-    );
-
-    document.body.style.backgroundColor = style.getPropertyValue(
-        '--tg-theme-secondary-bg-color'
-    );
 
     try {
         const response = await $fetch(`/api/user?telegram_id=${telegram_id}`);

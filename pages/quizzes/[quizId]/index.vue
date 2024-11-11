@@ -1,40 +1,61 @@
 <template>
-    <div v-if="quiz">
+    <div class="quiz grow" v-if="quiz">
         <!-- Стартовый экран -->
-        <div v-if="!hasStarted" class="start-screen text-center p-5">
-            <img class="mb-4" :src="quiz.image_url" />
-            <h1 class="text-3xl font-bold mb-4">{{ quiz.title }}</h1>
-            <p class="text-lg mb-6">{{ quiz.description }}</p>
-            <button
-                @click="startQuiz"
-                class="px-6 py-3 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-                Начать
-            </button>
+
+        <div v-if="!hasStarted" class="start-screen">
+            <img class="mb-5" :src="quiz.image_url" />
+            <div class="flex flex-col justify-center items-center px-5 gap-4">
+                <h1 class="text-2xl font-semibold text-center">
+                    {{ quiz.title }}
+                </h1>
+
+                <button
+                    @click="startQuiz"
+                    class="tg__button px-6 py-3 font-bold text-lg rounded"
+                >
+                    Начать
+                </button>
+                <p class="text-lg">{{ quiz.description }}</p>
+            </div>
         </div>
 
         <!-- Экран прохождения квиза -->
-        <div v-else-if="!isQuizCompleted" class="quiz-container p-5">
+        <div
+            v-else-if="!isQuizCompleted"
+            class="quiz-container flex flex-col h-full justify-between items-center pt-6"
+        >
             <!-- Индикатор прогресса -->
-            <div class="flex justify-between items-center mb-6">
-                <p class="text-lg font-semibold">
-                    {{ currentIndex + 1 }} / {{ totalQuestions }}
+            <div class="w-full mb-6 px-8">
+                <p class="text-xl font-bold tracking-widest">
+                    {{ currentIndex + 1 }}/{{ totalQuestions }}
                 </p>
             </div>
 
-            <div v-if="currentQuestion" class="question">
-                <img class="mb-4" :src="currentQuestion.image_url" />
+            <div
+                v-if="currentQuestion"
+                class="question flex flex-col gap-4 px-8 w-full"
+            >
+                <img
+                    v-if="currentQuestion?.image_url"
+                    class="mb-4"
+                    :src="currentQuestion.image_url"
+                />
                 <h2 class="text-2xl font-bold mb-4">
                     {{ currentQuestion.title }}
                 </h2>
-                <p class="mb-4">{{ currentQuestion.description }}</p>
+                <p v-if="currentQuestion?.description" class="mb-4">
+                    {{ currentQuestion.description }}
+                </p>
 
                 <!-- Single-choice question -->
-                <div v-if="currentQuestion.type === 'single-choice'">
+                <div
+                    class="flex flex-col gap-8"
+                    v-if="currentQuestion.type === 'single-choice'"
+                >
                     <label
                         v-for="(option, index) in currentQuestion.options"
                         :key="index"
-                        class="block mb-2"
+                        class="flex flex-row gap-7"
                     >
                         <input
                             type="radio"
@@ -78,27 +99,39 @@
                         class="w-full p-2 border border-gray-300 rounded"
                     ></textarea>
                 </div>
-
+            </div>
+            <div class="w-full">
                 <!-- Navigation buttons -->
-                <div class="mt-4 flex justify-between">
+                <div class="flex justify-between p-6 flex flex-row gap-3">
                     <button
                         v-if="currentIndex > 0"
                         @click="prevQuestion"
-                        class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                        class="px-6 py-2 font-bold text-lg rounded tg__button"
                     >
-                        Back
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            fill="currentColor"
+                            class="bi bi-arrow-left"
+                            viewBox="0 0 16 16"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+                            />
+                        </svg>
                     </button>
                     <button
                         @click="nextQuestion"
                         v-if="isAnswerSelected"
-                        class="px-4 py-2 text-white rounded bg-blue-500 hover:bg-blue-600"
+                        class="px-4 grow py-2 rounded font-bold text-lg tg__button2"
                     >
-                        {{ isLastQuestion ? 'Finish' : 'Next' }}
+                        {{ isLastQuestion ? 'Завершить' : 'Далее' }}
                     </button>
                 </div>
-
                 <!-- Прогресс-бар -->
-                <div class="progress-bar mt-6">
+                <div class="progress-bar">
                     <div
                         class="progress"
                         :style="{ width: progressPercentage + '%' }"
@@ -108,11 +141,13 @@
         </div>
 
         <!-- Quiz result -->
-        <div v-else class="result text-center p-5">
+        <div v-else class="h-full result flex flex-col">
             <img class="mb-4" :src="outcome.image_url" />
-            <h2 class="text-2xl font-bold mb-4">Quiz Result</h2>
-            <p class="text-lg">{{ outcome.text }}</p>
-            <p class="mt-4 text-gray-500">Your Score: {{ finalScore }}%</p>
+            <div class="flex grow flex-col items-center gap-4 px-5">
+                <h2 class="text-2xl font-bold">Итог</h2>
+                <p class="text-lg">{{ outcome.text }}</p>
+                <p class="mt-4 tg__hint">Твой счёт: {{ finalScore }}%</p>
+            </div>
         </div>
     </div>
 
@@ -278,6 +313,46 @@ function calculateScore() {
 </script>
 
 <style scoped>
+.quiz {
+    background-color: var(--tg-theme-button-dtcolor);
+}
+
+.tg__button {
+    background-color: var(--tg-theme-bg-tcolor);
+}
+.tg__button2 {
+    background-color: var(--tg-theme-bg-tcolor);
+}
+
+input[type='radio'] {
+    appearance: none;
+    background-color: var(--tg-theme-text-color);
+    margin: 0;
+    font: inherit;
+    color: var(--tg-theme-text-color);
+    width: 1.4em;
+    height: 1.4em;
+    border: 0.15em solid var(--tg-theme-text-color);
+    border-radius: 50%;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+}
+
+input[type='radio']::before {
+    content: '';
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 100ms transform ease-in-out;
+    box-shadow: inset 1em 1em var(--tg-theme-secondary-bg-color);
+}
+
+input[type='radio']:checked::before {
+    transform: scale(1);
+}
+
 .quiz-container {
     max-width: 600px;
     margin: 0 auto;
@@ -293,20 +368,22 @@ p {
 
 .start-screen {
     max-width: 600px;
-    margin: 0 auto;
+}
+
+label {
+    font-size: 1.2rem;
 }
 
 .progress-bar {
     width: 100%;
     height: 8px;
     background-color: #e5e5e5;
-    border-radius: 4px;
     overflow: hidden;
 }
 
 .progress {
     height: 100%;
-    background-color: #3b82f6;
+    background-color: var(--tg-theme-button-dcolor);
     transition: width 0.3s ease;
 }
 </style>

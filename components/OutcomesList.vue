@@ -10,9 +10,12 @@
             >
                 <div class="flex flex-col grow">
                     <div class="flex flex-row pe-4 gap-2">
-                        <span class="py-3 grow"
-                            >{{ outcome.text }}
-                            {{ outcome.min_percentage }}</span
+                        <span class="py-3 grow">
+                            От {{ outcome.min_percentage }}% до
+                            {{
+                                sortedOutcomes[index + 1]?.min_percentage ??
+                                100
+                            }}%</span
                         >
                         <button
                             @click="$emit('edit', outcome)"

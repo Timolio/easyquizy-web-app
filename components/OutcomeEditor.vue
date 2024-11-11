@@ -1,12 +1,13 @@
 <template>
-    <div class="editor-container">
+    <div class="editor-container p-2">
         <div class="editor">
             <ImageUploader v-model="localOutcome.image_url" />
-            <input
+            <textarea
                 v-model="localOutcome.text"
                 placeholder="Текст исхода"
                 class="input"
-            />
+            ></textarea>
+            От
             <input
                 v-model="localOutcome.min_percentage"
                 type="number"
@@ -66,7 +67,6 @@ const handleSave = () => {
     background-color: var(--tg-theme-bg-color);
     display: flex;
     justify-content: center;
-    padding: 2rem;
     position: fixed;
     inset: 0;
     overflow-y: auto;

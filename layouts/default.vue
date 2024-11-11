@@ -23,6 +23,7 @@ useHead({
 main {
     min-height: 100vh;
     /* padding: 0.6rem 0.8rem; */
+    display: flex;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

@@ -1,50 +1,60 @@
 <template>
     <div
-        class="question-editor fixed inset-0 flex justify-center p-2 overflow-y-auto"
+        class="question-editor fixed inset-0 flex justify-center overflow-y-auto"
     >
         <div class="w-full max-w-3xl">
-            <ImageUploader
-                class="w-full rounded-md text-lg mb-4"
-                v-model="localQuestion.image_url"
-            />
-
             <!-- Поля для названия и описания вопроса -->
-            <input
-                v-model="localQuestion.title"
-                placeholder="Question Title"
-                class="w-full border border-gray-300 rounded-md p-4 text-lg mb-4"
-            />
-            <textarea
-                v-model="localQuestion.description"
-                placeholder="Question Description"
-                class="w-full border border-gray-300 rounded-md p-4 text-lg mb-4"
-            ></textarea>
-            <select
-                v-model="localQuestion.type"
-                class="w-full border border-gray-300 rounded-md p-4 text-lg mb-6"
-            >
-                <option value="single-choice">Single Choice</option>
-                <option value="multiple-choice">Multiple Choice</option>
-                <option value="text-answer">Text Answer</option>
-            </select>
+            <div class="question-block flex flex-col gap-2 px-5 py-2">
+                <ImageUploader
+                    class="w-full text-lg"
+                    v-model="localQuestion.image_url"
+                />
+                <h2 class="font-semibold py-1">Вопрос</h2>
+                <input
+                    v-model="localQuestion.title"
+                    placeholder="Задайте вопрос"
+                    class="w-full input py-1 text-lg"
+                />
+            </div>
+            <div class="question-block flex flex-col gap-2 px-5 py-2">
+                <h2 class="font-semibold py-1">Описание</h2>
+                <textarea
+                    v-model="localQuestion.description"
+                    placeholder="Описание вопроса (необязательно)"
+                    class="w-full input py-1 text-lg"
+                ></textarea>
+            </div>
+            <div class="question-block flex flex-col gap-2 px-5 py-2">
+                <h2 class="font-semibold py-1">Тип</h2>
+                <select
+                    v-model="localQuestion.type"
+                    class="w-full input py-1 text-lg"
+                >
+                    <option value="single-choice">Один из списка</option>
+                    <option value="multiple-choice">Несколько из списка</option>
+                    <option value="text-answer">Текстовый ответ</option>
+                </select>
+            </div>
 
             <!-- Список опций -->
-            <div class="mb-6">
-                <h4 class="text-lg font-semibold mb-4">Options</h4>
+            <div class="mb-6 question-block flex flex-col gap-2 px-5 py-2">
+                <h2 class="font-semibold py-1">Варианты ответа</h2>
                 <div
                     v-for="(option, index) in localQuestion.options"
                     :key="index"
-                    class="mb-4 flex space-x-2 items-center"
+                    class="flex space-x-2 items-center"
                 >
                     <!-- Инпут для текста опции -->
                     <input
                         v-model="option.text"
                         :placeholder="
-                            option.isPhantom ? 'Add Option' : 'Option Text'
+                            option.isPhantom
+                                ? 'Добавить ответ...'
+                                : 'Option Text'
                         "
                         @input="handleOptionInput(option)"
                         @blur="handleOptionBlur(option, index)"
-                        class="w-full border border-gray-300 rounded-md p-4"
+                        class="w-full input py-1"
                     />
 
                     <!-- Инпут для score и кнопка удаления только если это не фантомная опция -->
@@ -53,7 +63,7 @@
                         v-model.number="option.score"
                         type="number"
                         placeholder="Score"
-                        class="w-24 border border-gray-300 rounded-md p-4"
+                        class="input"
                     />
                     <button
                         v-if="!option.isPhantom"
@@ -160,9 +170,28 @@ onMounted(() => {
     background-color: var(--tg-theme-secondary-bg-color);
 }
 
-input,
-textarea,
-select {
+hr {
+    border-color: var(--tg-theme-section-separator-color);
+    border-width: 0.5px;
+}
+
+h2 {
+    color: var(--tg-theme-section-header-text-color);
+}
+
+.input {
+    width: 100%;
     background: none;
+    /* background-color: var(--tg-theme-secondary-bg-color); */
+    border: none;
+    color: var(--tg-theme-text-color);
+    outline: none;
+}
+
+.question-block {
+    background-color: var(--tg-theme-section-bg-color);
+    color: var(--tg-theme-button-text-color);
+    margin-bottom: 1rem;
+    box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
 }
 </style>
