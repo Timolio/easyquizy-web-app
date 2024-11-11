@@ -92,7 +92,7 @@
                                         :name="'option-' + currentIndex"
                                         :value="index"
                                         v-model="userAnswers[currentIndex]"
-                                        class="mr-2"
+                                        class="shrink-0"
                                     />
                                     <label
                                         :for="
