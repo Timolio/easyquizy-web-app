@@ -159,9 +159,10 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-const { useWebApp } = await import('vue-tg');
+const { useWebApp, useWebAppTheme } = await import('vue-tg');
 
 const { initDataUnsafe } = useWebApp();
+const { setHeaderColor } = useWebAppTheme();
 const route = useRoute();
 const quizStore = useQuizStore();
 const { currentQuiz: quiz } = storeToRefs(quizStore);
@@ -175,6 +176,9 @@ const outcome = ref(null);
 
 // Load quiz on mount
 onMounted(async () => {
+    const root = document.documentElement;
+    const style = window.getComputedStyle(root);
+    setHeaderColor(style.getPropertyValue('--tg-theme-button-dtcolor'));
     const quizId = route.params.quizId;
     await quizStore.fetchQuizById(quizId, initDataUnsafe?.user?.id ?? 404);
 });
@@ -316,6 +320,7 @@ function calculateScore() {
 .quiz {
     background-color: var(--tg-theme-button-dtcolor);
     overflow-y: auto;
+    max-height: 100vh;
 }
 
 .tg__button {

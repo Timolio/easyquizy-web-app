@@ -97,6 +97,7 @@ watch(
 
 <style scoped>
 .editor {
+    max-height: 100vh;
     overflow-y: auto;
 }
 </style>
