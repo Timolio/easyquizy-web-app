@@ -4,7 +4,7 @@ import { useWebAppViewport, useWebAppTheme } from 'vue-tg';
 const { expand, disableVerticalSwipes } = useWebAppViewport();
 const { setHeaderColor, themeParams } = useWebAppTheme();
 
-// setHeaderColor(themeParams.value.section_bg_color);
+setHeaderColor(themeParams.value.secondary_bg_color);
 disableVerticalSwipes();
 expand();
 
@@ -12,9 +12,14 @@ const root = document.documentElement;
 const style = window.getComputedStyle(root);
 
 root.style.setProperty(
-    '--tg-theme-button-tcolor',
+    '--tg-theme-button-ttcolor',
     addAlpha(style.getPropertyValue('--tg-theme-button-color') || '', 0.3)
 );
+root.style.setProperty(
+    '--tg-theme-button-tcolor',
+    addAlpha(style.getPropertyValue('--tg-theme-button-color') || '', 0.5)
+);
+
 root.style.setProperty(
     '--tg-theme-button-ttcolor',
     addAlpha(style.getPropertyValue('--tg-theme-button-color') || '', 0.1)
@@ -22,6 +27,10 @@ root.style.setProperty(
 root.style.setProperty(
     '--tg-theme-button-lcolor',
     adjust(style.getPropertyValue('--tg-theme-button-color') || '', 70)
+);
+root.style.setProperty(
+    '--tg-theme-button-ltcolor',
+    addAlpha(style.getPropertyValue('--tg-theme-button-lcolor') || '', 0.5)
 );
 root.style.setProperty(
     '--tg-theme-button-dcolor',
@@ -33,7 +42,7 @@ root.style.setProperty(
 );
 root.style.setProperty(
     '--tg-theme-bg-tcolor',
-    addAlpha(style.getPropertyValue('--tg-theme-bg-color') || '', 0.4)
+    addAlpha(style.getPropertyValue('--tg-theme-bg-color') || '', 0.5)
 );
 root.style.setProperty(
     '--tg-theme-button-llcolor',
@@ -41,11 +50,7 @@ root.style.setProperty(
 );
 root.style.setProperty(
     '--tg-theme-section-bg-dcolor',
-    adjust(style.getPropertyValue('--tg-theme-section-bg-color') || '', -5)
-);
-root.style.setProperty(
-    '--tg-theme-section-bg-lcolor',
-    adjust(style.getPropertyValue('--tg-theme-section-bg-color') || '', 5)
+    adjust(style.getPropertyValue('--tg-theme-section-bg-color') || '', -6)
 );
 root.style.setProperty(
     '--tg-theme-section-bg-tcolor',

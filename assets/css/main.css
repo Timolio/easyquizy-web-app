@@ -10,3 +10,7 @@ body {
 .tg__hint {
     color: var(--tg-theme-hint-color);
 }
+
+.tg__color {
+    color: var(--tg-theme-button-lcolor);
+}
