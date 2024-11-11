@@ -1,5 +1,6 @@
 <template>
     <div class="editor" v-if="currentQuiz">
+        <button @click="sendLink">Send Link</button>
         <QuizInfo />
 
         <QuestionsList
