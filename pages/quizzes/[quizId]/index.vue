@@ -178,8 +178,8 @@ const outcome = ref(null);
 onMounted(async () => {
     // const root = document.documentElement;
     // const style = window.getComputedStyle(root);
-    // setHeaderColor(style.getPropertyValue('--tg-theme-button-dtcolor'));
-    setHeaderColor(addAlpha(themeParams.value.button_color, 0.5));
+    setHeaderColor(style.getPropertyValue('--tg-theme-button-ddcolor'));
+    // setHeaderColor(adjust(themeParams.value.button_color, -50));
     const quizId = route.params.quizId;
     await quizStore.fetchQuizById(quizId, initDataUnsafe?.user?.id ?? 404);
 });

@@ -28,8 +28,8 @@ root.style.setProperty(
     adjust(style.getPropertyValue('--tg-theme-button-color') || '', -10)
 );
 root.style.setProperty(
-    '--tg-theme-button-dtcolor',
-    addAlpha(style.getPropertyValue('--tg-theme-button-dcolor') || '', 0.5)
+    '--tg-theme-button-ddcolor',
+    adjust(style.getPropertyValue('--tg-theme-button-dcolor') || '', -20)
 );
 root.style.setProperty(
     '--tg-theme-bg-tcolor',
