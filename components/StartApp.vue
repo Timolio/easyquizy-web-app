@@ -4,7 +4,7 @@ import { useWebAppViewport, useWebAppTheme } from 'vue-tg';
 const { expand, disableVerticalSwipes } = useWebAppViewport();
 const { setHeaderColor, themeParams } = useWebAppTheme();
 
-setHeaderColor(themeParams.value.section_bg_color);
+// setHeaderColor(themeParams.value.section_bg_color);
 disableVerticalSwipes();
 expand();
 
