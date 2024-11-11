@@ -176,8 +176,8 @@ const outcome = ref(null);
 
 // Load quiz on mount
 onMounted(async () => {
-    // const root = document.documentElement;
-    // const style = window.getComputedStyle(root);
+    const root = document.documentElement;
+    const style = window.getComputedStyle(root);
     setHeaderColor(style.getPropertyValue('--tg-theme-button-ddcolor'));
     // setHeaderColor(adjust(themeParams.value.button_color, -50));
     const quizId = route.params.quizId;
