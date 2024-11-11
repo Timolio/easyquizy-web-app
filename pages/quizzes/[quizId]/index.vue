@@ -246,7 +246,10 @@
             </div>
         </div>
     </div>
-    <BackButton :visible="currentIndex > 0" @click="prevQuestion" />
+    <BackButton
+        :visible="currentIndex > 0 && quiz && hasStarted && !isQuizCompleted"
+        @click="prevQuestion"
+    />
 </template>
 
 <script setup>
@@ -326,6 +329,7 @@ function restartQuiz() {
 
 // Navigate to the next question
 async function nextQuestion() {
+    window.scrollTo(0, 0);
     if (isLastQuestion.value) {
         await completeQuiz();
     } else {
