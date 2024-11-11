@@ -2,9 +2,14 @@
     <div class="editor-container p-2">
         <div class="editor">
             <ImageUploader v-model="localOutcome.image_url" />
+            <input
+                v-model="localOutcome.title"
+                placeholder="Заголовок исхода"
+                class="input"
+            />
             <textarea
-                v-model="localOutcome.text"
-                placeholder="Текст исхода"
+                v-model="localOutcome.description"
+                placeholder="Описание исхода"
                 class="input"
             ></textarea>
             От

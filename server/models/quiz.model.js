@@ -1,7 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
 
 const OutcomeSchema = new Schema({
-    text: { type: String, required: true },
+    title: { type: String, required: true },
+    description: { type: String, required: true },
     min_percentage: { type: Number, required: true },
     image_url: { type: String },
 });

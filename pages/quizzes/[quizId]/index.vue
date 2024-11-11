@@ -2,7 +2,7 @@
     <div class="quiz grow" v-if="quiz">
         <!-- Стартовый экран -->
 
-        <div v-if="!hasStarted" class="start-screen">
+        <div v-if="!hasStarted">
             <div
                 class="flex flex-col justify-center items-center px-5 gap-4 py-5"
             >
@@ -47,118 +47,138 @@
             class="quiz-container flex flex-col h-full justify-between items-center"
         >
             <!-- Индикатор прогресса -->
-            <div class="w-full mb-6 px-8 pt-6">
+            <div class="w-full mb-4 px-8 pt-6">
                 <p class="text-xl font-bold tracking-widest">
                     <span class="tg__color">{{ currentIndex + 1 }}</span
                     >/{{ totalQuestions }}
                 </p>
             </div>
 
-            <div v-if="currentQuestion" class="px-5 w-full">
-                <div class="tg__container block flex flex-col gap-4">
+            <div v-if="currentQuestion" class="px-3 w-full">
+                <div class="tg__container header flex flex-col">
                     <img
                         v-if="currentQuestion?.image_url"
-                        class="mb-4"
                         :src="currentQuestion.image_url"
                     />
-                    <h2 class="text-2xl font-bold mb-4">
-                        {{ currentQuestion.title }}
-                    </h2>
-                    <p v-if="currentQuestion?.description" class="mb-4">
-                        {{ currentQuestion.description }}
-                    </p>
+                    <div class="block">
+                        <h2 class="text-2xl font-bold mb-4">
+                            {{ currentQuestion.title }}
+                        </h2>
+                        <p v-if="currentQuestion?.description" class="mb-4">
+                            {{ currentQuestion.description }}
+                        </p>
 
-                    <!-- Single-choice question -->
-                    <div
-                        class="flex flex-col gap-8"
-                        v-if="currentQuestion.type === 'single-choice'"
-                    >
-                        <label
-                            v-for="(option, index) in currentQuestion.options"
-                            :key="index"
-                            class="flex flex-row gap-7"
+                        <!-- Single-choice question -->
+                        <div
+                            class="flex flex-col gap-8"
+                            v-if="currentQuestion.type === 'single-choice'"
                         >
-                            <input
-                                type="radio"
-                                :id="'single-' + currentIndex + '-' + index"
-                                :name="'option-' + currentIndex"
-                                :value="index"
-                                v-model="userAnswers[currentIndex]"
-                                class="mr-2"
-                            />
                             <label
-                                :for="'single-' + currentIndex + '-' + index"
-                                >{{ option.text }}</label
+                                v-for="(
+                                    option, index
+                                ) in currentQuestion.options"
+                                :key="index"
+                                class="flex flex-row gap-7"
                             >
-                        </label>
-                    </div>
+                                <input
+                                    type="radio"
+                                    :id="'single-' + currentIndex + '-' + index"
+                                    :name="'option-' + currentIndex"
+                                    :value="index"
+                                    v-model="userAnswers[currentIndex]"
+                                    class="mr-2"
+                                />
+                                <label
+                                    :for="
+                                        'single-' + currentIndex + '-' + index
+                                    "
+                                    >{{ option.text }}</label
+                                >
+                            </label>
+                        </div>
 
-                    <!-- Multiple-choice question -->
-                    <div v-if="currentQuestion.type === 'multiple-choice'">
-                        <label
-                            v-for="(option, index) in currentQuestion.options"
-                            :key="index"
-                            class="block mb-2"
+                        <!-- Multiple-choice question -->
+                        <div v-if="currentQuestion.type === 'multiple-choice'">
+                            <label
+                                v-for="(
+                                    option, index
+                                ) in currentQuestion.options"
+                                :key="index"
+                                class="block mb-2"
+                            >
+                                <input
+                                    type="checkbox"
+                                    :id="'multi-' + currentIndex + '-' + index"
+                                    :value="index"
+                                    v-model="userAnswers[currentIndex]"
+                                    class="mr-2"
+                                />
+                                <label
+                                    :for="'multi-' + currentIndex + '-' + index"
+                                    >{{ option.text }}</label
+                                >
+                            </label>
+                        </div>
+
+                        <!-- Text-answer question -->
+                        <div
+                            v-if="currentQuestion.type === 'text-answer'"
+                            class="mb-4"
                         >
-                            <input
-                                type="checkbox"
-                                :id="'multi-' + currentIndex + '-' + index"
-                                :value="index"
+                            <textarea
                                 v-model="userAnswers[currentIndex]"
-                                class="mr-2"
-                            />
-                            <label
-                                :for="'multi-' + currentIndex + '-' + index"
-                                >{{ option.text }}</label
-                            >
-                        </label>
-                    </div>
-
-                    <!-- Text-answer question -->
-                    <div
-                        v-if="currentQuestion.type === 'text-answer'"
-                        class="mb-4"
-                    >
-                        <textarea
-                            v-model="userAnswers[currentIndex]"
-                            placeholder="Your answer"
-                            class="w-full p-2 border border-gray-300 rounded"
-                        ></textarea>
+                                placeholder="Your answer"
+                                class="w-full p-2 border border-gray-300 rounded"
+                            ></textarea>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="w-full">
                 <!-- Navigation buttons -->
-                <div class="flex justify-between p-6 flex flex-row gap-3">
+                <div
+                    class="flex justify-between px-3 pt-3 pb-5 flex flex-row gap-3"
+                >
                     <button
                         v-if="currentIndex > 0"
                         @click="prevQuestion"
-                        class="px-6 py-2 font-bold text-lg rounded tg__button2"
+                        class="px-6 py-2 font-bold text-lg tg__button2"
                     >
-                        <svg
+                        <!-- <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
                             height="24"
                             fill="currentColor"
-                            class="bi bi-arrow-left"
                             viewBox="0 0 16 16"
                         >
                             <path
                                 fill-rule="evenodd"
                                 d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
                             />
+                        </svg> -->
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="28"
+                            height="28"
+                            fill="currentColor"
+                            viewBox="0 0 32 32"
+                        >
+                            <path
+                                d="M32 15H3.41l8.29-8.29-1.41-1.42-10 10a1 1 0 0 0 0 1.41l10 10 1.41-1.41L3.41 17H32z"
+                                data-name="4-Arrow Left"
+                            />
                         </svg>
                     </button>
                     <button
                         @click="nextQuestion"
                         v-if="isAnswerSelected"
-                        class="px-4 grow py-2 rounded font-bold text-lg tg__button transparent"
+                        class="px-4 grow py-2 font-bold text-lg tg__button3"
                     >
                         {{ isLastQuestion ? 'Завершить' : 'Далее' }}
                     </button>
                 </div>
                 <!-- Прогресс-бар -->
-                <div class="progress-bar">
+                <div class="progress-bar fixed -bottom-0.5">
                     <div
                         class="progress"
                         :style="{ width: progressPercentage + '%' }"
@@ -168,11 +188,45 @@
         </div>
 
         <!-- Quiz result -->
-        <div v-else class="h-full result flex flex-col">
-            <img class="mb-4" :src="outcome.image_url" />
-            <div class="flex grow flex-col items-center gap-4 px-5">
-                <h2 class="text-2xl font-bold">Итог</h2>
-                <p class="text-lg">{{ outcome.text }}</p>
+        <div
+            v-else
+            class="flex flex-col justify-center items-center px-5 gap-4 py-5"
+        >
+            <div class="tg__container">
+                <div class="header">
+                    <img :src="outcome.image_url" />
+                    <div class="block">
+                        <h2 class="text-2xl font-bold leading-relaxed">
+                            <span>{{ outcome.title }}</span>
+                        </h2>
+                    </div>
+                </div>
+                <div class="block-sm flex justify-end">
+                    <!-- Кнопка для повторного прохождения квиза -->
+                    <button
+                        @click="restartQuiz"
+                        class="size-12 shrink-0 tg__button outside flex justify-center items-center"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="32"
+                            height="32"
+                            fill="currentColor"
+                            viewBox="0 0 16 16"
+                        >
+                            <path
+                                d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41m-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9"
+                            />
+                            <path
+                                fill-rule="evenodd"
+                                d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"
+                            />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="tg__container header block">
+                <p class="text-lg">{{ outcome.description }}</p>
                 <p class="mt-4 tg__hint">Твой счёт: {{ finalScore }}%</p>
             </div>
         </div>
@@ -203,10 +257,6 @@ const outcome = ref(null);
 
 // Load quiz on mount
 onMounted(async () => {
-    const root = document.documentElement;
-    const style = window.getComputedStyle(root);
-    setHeaderColor(style.getPropertyValue('--tg-theme-button-ddcolor'));
-    // setHeaderColor(adjust(themeParams.value.button_color, -50));
     const quizId = route.params.quizId;
     await quizStore.fetchQuizById(quizId, initDataUnsafe?.user?.id ?? 404);
 });
@@ -252,6 +302,15 @@ function initializeAnswer(index) {
     ) {
         userAnswers.value[index] = [];
     }
+}
+
+function restartQuiz() {
+    hasStarted.value = false;
+    currentIndex.value = 0;
+    userAnswers.value = {};
+    isQuizCompleted.value = false;
+    finalScore.value = 0;
+    outcome.value = null;
 }
 
 // Navigate to the next question
@@ -357,8 +416,9 @@ function calculateScore() {
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 } */
 .tg__button2 {
-    background-color: var(--tg-theme-bg-tcolor);
-    border-radius: 0.5rem;
+    background-color: var(--tg-theme-bg-color);
+    border: 4px solid var(--tg-theme-button-dcolor);
+    border-radius: 0.75rem;
 }
 
 input[type='radio'] {
@@ -388,12 +448,13 @@ input[type='radio'] {
     border-radius: 0.5rem;
 }
 
-.tg__button.transparent {
-    background-image: linear-gradient(
-        to bottom right,
-        var(--tg-theme-button-tcolor) 0%,
-        var(--tg-theme-button-ltcolor) 100%
-    );
+.tg__button.outside {
+    border-radius: 0.75rem;
+}
+
+.tg__button3 {
+    background-color: var(--tg-theme-button-dcolor);
+    border-radius: 0.75rem;
 }
 
 h2 {
@@ -420,8 +481,8 @@ h2 span {
 
 input[type='radio']::before {
     content: '';
-    width: 1em;
-    height: 1em;
+    width: 0.75em;
+    height: 0.75em;
     border-radius: 50%;
     transform: scale(0);
     transition: 100ms transform ease-in-out;
@@ -474,12 +535,8 @@ p {
     color: dimgray;
 } */
 
-.start-screen {
-    max-width: 600px;
-}
-
 label {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
 }
 
 .progress-bar {
@@ -491,7 +548,7 @@ label {
 
 .progress {
     height: 100%;
-    background-color: var(--tg-theme-button-lcolor);
+    background-color: var(--tg-theme-button-color);
     transition: width 0.3s ease;
 }
 </style>
