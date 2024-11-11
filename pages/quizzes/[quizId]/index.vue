@@ -240,10 +240,10 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
-const { useWebApp, useWebAppTheme } = await import('vue-tg');
+const { useWebApp, useWebAppMainButton } = await import('vue-tg');
 
 const { initDataUnsafe } = useWebApp();
-const { setHeaderColor, themeParams } = useWebAppTheme();
+const { showMainButton, hideMainButton } = useWebAppMainButton();
 const route = useRoute();
 const quizStore = useQuizStore();
 const { currentQuiz: quiz } = storeToRefs(quizStore);
@@ -281,12 +281,16 @@ const progressPercentage = computed(
 const isAnswerSelected = computed(() => {
     const answer = userAnswers.value[currentIndex.value];
     if (currentQuestion.value.type === 'single-choice') {
+        showMainButton();
         return answer !== undefined;
     } else if (currentQuestion.value.type === 'multiple-choice') {
+        showMainButton();
         return answer && answer.length > 0;
     } else if (currentQuestion.value.type === 'text-answer') {
+        showMainButton();
         return answer && answer.trim().length > 0;
     }
+    hideMainButton();
     return false;
 });
 
@@ -541,7 +545,7 @@ label {
 
 .progress-bar {
     width: 100%;
-    height: 8px;
+    height: 12px;
     background-color: #e5e5e5;
     overflow: hidden;
 }
