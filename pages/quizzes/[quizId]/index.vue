@@ -315,6 +315,7 @@ function calculateScore() {
 <style scoped>
 .quiz {
     background-color: var(--tg-theme-button-dtcolor);
+    overflow-y: auto;
 }
 
 .tg__button {

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="currentQuiz">
+    <div class="editor" v-if="currentQuiz">
         <QuizInfo />
 
         <QuestionsList
@@ -94,3 +94,9 @@ watch(
     { deep: true }
 );
 </script>
+
+<style scoped>
+.editor {
+    overflow-y: auto;
+}
+</style>

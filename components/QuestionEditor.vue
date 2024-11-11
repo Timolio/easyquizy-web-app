@@ -168,6 +168,7 @@ onMounted(() => {
 <style scoped>
 .question-editor {
     background-color: var(--tg-theme-secondary-bg-color);
+    overflow-y: auto;
 }
 
 hr {
