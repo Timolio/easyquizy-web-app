@@ -4,23 +4,29 @@
     >
         <div class="w-full max-w-3xl">
             <!-- Поля для названия и описания вопроса -->
+            <ImageUploader
+                class="w-full text-lg"
+                v-model="localQuestion.image_url"
+            />
             <div class="question-block flex flex-col gap-2 px-5 py-2">
-                <ImageUploader
-                    class="w-full text-lg"
-                    v-model="localQuestion.image_url"
-                />
                 <h2 class="font-semibold py-1">Вопрос</h2>
-                <input
+                <textarea
                     v-model="localQuestion.title"
                     placeholder="Задайте вопрос"
+                    rows="1"
+                    @keydown.enter.prevent
+                    oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
                     class="w-full input py-1 text-lg"
-                />
+                ></textarea>
             </div>
             <div class="question-block flex flex-col gap-2 px-5 py-2">
                 <h2 class="font-semibold py-1">Описание</h2>
                 <textarea
                     v-model="localQuestion.description"
                     placeholder="Описание вопроса (необязательно)"
+                    rows="1"
+                    @keydown.enter.prevent
+                    oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
                     class="w-full input py-1 text-lg"
                 ></textarea>
             </div>
@@ -37,42 +43,55 @@
             </div>
 
             <!-- Список опций -->
-            <div class="mb-6 question-block flex flex-col gap-2 px-5 py-2">
+            <div class="mb-6 question-block flex flex-col gap-2 ps-5 pt-2">
                 <h2 class="font-semibold py-1">Варианты ответа</h2>
-                <div
-                    v-for="(option, index) in localQuestion.options"
-                    :key="index"
-                    class="flex space-x-2 items-center"
+                <VueDraggableNext
+                    v-model="localQuestion.options"
+                    :animation="200"
                 >
-                    <!-- Инпут для текста опции -->
-                    <input
-                        v-model="option.text"
-                        :placeholder="
-                            option.isPhantom
-                                ? 'Добавить ответ...'
-                                : 'Option Text'
-                        "
-                        @input="handleOptionInput(option)"
-                        @blur="handleOptionBlur(option, index)"
-                        class="w-full input py-1"
-                    />
-
-                    <!-- Инпут для score и кнопка удаления только если это не фантомная опция -->
-                    <input
-                        v-if="!option.isPhantom"
-                        v-model.number="option.score"
-                        type="number"
-                        placeholder="Score"
-                        class="input"
-                    />
-                    <button
-                        v-if="!option.isPhantom"
-                        @click="removeOption(index)"
-                        class="text-red-500 font-bold"
+                    <div
+                        v-for="(option, index) in localQuestion.options"
+                        :key="index"
+                        class="flex flex-col w-full"
                     >
-                        x
-                    </button>
-                </div>
+                        <div
+                            class="flex flex-row items-center text-lg gap-4 pe-5"
+                        >
+                            <!-- Инпут для текста опции -->
+                            <textarea
+                                v-model="option.text"
+                                :placeholder="
+                                    option.isPhantom
+                                        ? 'Добавить ответ...'
+                                        : 'Option Text'
+                                "
+                                rows="1"
+                                @keydown.enter.prevent
+                                oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
+                                @input="handleOptionInput(option)"
+                                @blur="handleOptionBlur(option, index)"
+                                class="grow input py-3"
+                            ></textarea>
+
+                            <!-- Инпут для score и кнопка удаления только если это не фантомная опция -->
+                            <input
+                                v-if="!option.isPhantom"
+                                v-model.number="option.score"
+                                type="number"
+                                placeholder="Score"
+                                class="input w-12 grow-0 h-full text-center"
+                            />
+                            <button
+                                v-if="!option.isPhantom"
+                                @click="removeOption(index)"
+                                class="tg__red font-bold text-xl"
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <hr v-if="!option.isPhantom" />
+                    </div>
+                </VueDraggableNext>
             </div>
 
             <!-- Кнопки управления -->
@@ -92,9 +111,14 @@
             </div>
         </div>
     </div>
+    <BackButton @click="$emit('close')" />
 </template>
 
 <script setup>
+import { VueDraggableNext } from 'vue-draggable-next';
+
+const { BackButton } = await import('vue-tg');
+
 const props = defineProps(['question']);
 const emit = defineEmits(['close']);
 
@@ -162,6 +186,10 @@ const handleSave = () => {
 
 onMounted(() => {
     ensurePhantomOption();
+    document.querySelectorAll('textarea').forEach(el => {
+        el.style.height = 'auto';
+        el.style.height = el.scrollHeight + 'px';
+    });
 });
 </script>
 
@@ -171,17 +199,11 @@ onMounted(() => {
     overflow-y: auto;
 }
 
-hr {
-    border-color: var(--tg-theme-section-separator-color);
-    border-width: 0.5px;
-}
-
 h2 {
     color: var(--tg-theme-section-header-text-color);
 }
 
 .input {
-    width: 100%;
     background: none;
     /* background-color: var(--tg-theme-secondary-bg-color); */
     border: none;

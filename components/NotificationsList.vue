@@ -1,6 +1,6 @@
 <template>
     <div
-        class="fixed bottom-2 left-4 flex flex-col-reverse space-y-2 space-y-reverse"
+        class="fixed bottom-2 left-2 flex flex-col-reverse space-y-2 space-y-reverse"
     >
         <Notification
             v-for="notification in notifications"
@@ -18,6 +18,6 @@ const { notifications, removeNotification } = useNotificationStore();
 
 <style scoped>
 div {
-    width: calc(100% - 1rem);
+    width: calc(100% - 0.5rem);
 }
 </style>

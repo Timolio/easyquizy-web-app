@@ -1,6 +1,5 @@
 <template>
     <div class="editor" v-if="currentQuiz">
-        <button @click="sendLink">Send Link</button>
         <QuizInfo />
 
         <QuestionsList
@@ -21,13 +20,15 @@
             :outcome="selectedOutcome"
             @close="closeOutcomeEditor"
         />
+        <button class="p-4 bg-black w-full" @click="sendLink">Send Link</button>
     </div>
+    <BackButton @click="goBack" />
 </template>
 
 <script setup>
 import { debounce } from 'lodash';
 import { useRoute } from 'vue-router';
-const { useWebApp, useWebAppNavigation } = await import('vue-tg');
+const { useWebApp, useWebAppNavigation, BackButton } = await import('vue-tg');
 
 const quizStore = useQuizStore();
 const { initDataUnsafe } = useWebApp();
@@ -54,6 +55,10 @@ const openQuestionEditor = (question = null) => {
         image_url: '',
     };
     isQuestionEditorOpen.value = true;
+};
+
+const goBack = async () => {
+    await navigateTo('/');
 };
 
 const closeQuestionEditor = () => {

@@ -29,9 +29,12 @@
             </div>
         </div>
     </div>
+    <BackButton @click="$emit('close')" />
 </template>
 
 <script setup>
+const { BackButton } = await import('vue-tg');
+
 const props = defineProps(['outcome']);
 const emit = defineEmits(['close']);
 

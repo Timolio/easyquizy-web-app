@@ -3,17 +3,22 @@
         <ImageUploader class="uploader" v-model="currentQuiz.image_url" />
         <div class="flex flex-col gap-2 px-5 py-2">
             <h2 class="font-semibold py-1">Общее</h2>
-            <input
+            <textarea
                 v-model="currentQuiz.title"
-                type="text"
+                rows="1"
+                @keydown.enter.prevent
+                oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
                 placeholder="Дайте заголовок"
-                class="input py-1"
-            />
+                class="input py-1 text-lg"
+            ></textarea>
             <hr />
             <textarea
                 v-model="currentQuiz.description"
+                rows="1"
+                @keydown.enter.prevent
+                oninput="this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px';"
                 placeholder="Придумайте описание"
-                class="input py-1"
+                class="input py-1 text-lg"
             ></textarea>
         </div>
     </div>
@@ -22,6 +27,13 @@
 <script setup>
 const quizStore = useQuizStore();
 const { currentQuiz } = storeToRefs(quizStore);
+
+onMounted(() => {
+    document.querySelectorAll('textarea').forEach(el => {
+        el.style.height = 'auto';
+        el.style.height = el.scrollHeight + 'px';
+    });
+});
 </script>
 
 <style scoped>
